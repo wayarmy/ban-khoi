@@ -1,0 +1,27 @@
+name: Screenshots
+
+# Makes the App Store screenshots (iPhone 6.9", 1320x2868) and keeps them as a download.
+on:
+  workflow_dispatch:
+  push:
+    branches: [ios]
+    paths: ['tools/screenshots.mjs', '.github/workflows/screenshots.yml']
+
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx vite build
+      - run: npm i --no-save --no-audit --no-fund playwright@1.49.1 && npx playwright install --with-deps chromium
+      - run: node tools/screenshots.mjs store/screenshots/iphone-6.9
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iphone-6.9-screenshots
+          path: store/screenshots/iphone-6.9/*.png

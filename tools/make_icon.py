@@ -29,7 +29,14 @@ box(HX + 5, HY + 10, 1, 1, MOUTH); box(HX + 10, HY + 10, 1, 1, MOUTH); box(HX + 
 # leaf sprout on top
 box(11, 1, 2, 2, LEAF); box(8, 1, 3, 1, LEAF); box(13, 1, 3, 1, LEAF)
 
-SIZE = 1024
+MODE = sys.argv[2] if len(sys.argv) > 2 else 'icon'
+if MODE == 'splash':
+    M, OFF = 64, 20
+    big = [[SKY] * M for _ in range(M)]
+    for y in range(N):
+        for x in range(N): big[y + OFF][x + OFF] = grid[y][x]
+    grid, N = big, M
+SIZE = 2732 if MODE == 'splash' else 1024
 rows = []
 for py in range(SIZE):
     cy = py * N // SIZE

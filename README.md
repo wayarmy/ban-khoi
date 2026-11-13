@@ -18,5 +18,4 @@ cd android && ./gradlew assembleDebug
 
 ## Nguồn tài sản
 - Nhân vật "Bạn Khối": tự thiết kế, ghép từ các khối, động tác viết bằng code (`src/blockhero.js`).
-- Bản nhân vật người cũ dùng [Mesh2Motion](https://mesh2motion.org) (CC0, một số động tác từ Quaternius) vẫn còn trong `src/character.js` và `public/anims`, nhưng không còn được dùng.
 - Khối, cây, đồi, mây: tự vẽ bằng code, không dùng hình của Minecraft.
