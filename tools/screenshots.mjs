@@ -60,7 +60,7 @@ await ev(() => { const k = ['carrot', 'tomato', 'cabbage']; __dbg.S.plots.forEac
 await wait(5000);
 await shot('nong-trai');
 // 8. the city: fountain plaza and tall buildings
-await ev(() => { __dbg.teleport(680, 40); __dbg.view.pitch = .78; __dbg.view.yaw = -.7; __dbg.view.zoom = 1.6; }); await wait(5500);
+await ev(() => { __dbg.teleport(760, -10); __dbg.view.pitch = .55; __dbg.view.yaw = 0; __dbg.view.zoom = 1.6; }); await wait(5500);
 await shot('thanh-pho');
 
 await browser.close(); server.close();

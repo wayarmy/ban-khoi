@@ -17,7 +17,6 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - run: sudo apt-get update && sudo apt-get install -y fonts-noto-color-emoji
       - run: npm ci
       - run: npx vite build
       - run: npm i --no-save --no-audit --no-fund playwright@1.49.1 && npx playwright install --with-deps chromium

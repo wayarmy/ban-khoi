@@ -1,0 +1,10 @@
+These emoji images are from the Twemoji project (https://github.com/jdecked/twemoji),
+a continuation of Twitter's open-source emoji set.
+
+Copyright 2020 Twitter, Inc and other contributors.
+Licensed under CC-BY 4.0: https://creativecommons.org/licenses/by/4.0/
+
+Graphics are the font-fallback-independent versions of the emoji used by the word-quest,
+farm/cooking, and pet-happiness features, bundled locally so they render identically on
+Android, iOS, and in CI-generated screenshots regardless of which system fonts are
+installed on the build/host machine.

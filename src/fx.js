@@ -121,15 +121,30 @@ export function labelSprite(text, color = '#ffd23f') {
   s.renderOrder = 10; s.userData.aspect = W / H;
   return s;
 }
+// Emoji are drawn from bundled Twemoji PNGs (public/emoji/<codepoints>.png) rather than
+// a system emoji font: headless/CI browsers often lack a colour-emoji font, which made
+// these render as a plain fallback glyph instead of the intended picture.
+const emojiImgCache = new Map();
+function emojiCodepoints(str) {
+  return [...str].map(c => c.codePointAt(0).toString(16)).join('-');
+}
+function loadEmojiImg(emoji) {
+  const key = emojiCodepoints(emoji);
+  if (emojiImgCache.has(key)) return emojiImgCache.get(key);
+  const img = new Image();
+  img.src = `emoji/${key}.png`;
+  emojiImgCache.set(key, img);
+  return img;
+}
 export function emojiSprite(emoji) {
   const c = document.createElement('canvas');
   c.width = c.height = 256;
   const x = c.getContext('2d');
-  x.font = '190px "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
-  x.textAlign = 'center'; x.textBaseline = 'middle';
-  x.fillText(emoji, 128, 140);
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
+  const draw = () => { x.clearRect(0, 0, 256, 256); x.drawImage(img, 32, 32, 192, 192); tex.needsUpdate = true; };
+  const img = loadEmojiImg(emoji);
+  if (img.complete && img.naturalWidth) draw(); else img.addEventListener('load', draw, { once: true });
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
   s.renderOrder = 10;
   return s;
