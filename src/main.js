@@ -255,7 +255,7 @@ async function complete(q) {
   else {
     label = labelSprite(q.word.text); label.position.copy(top); label.scale.setScalar(.01); scene.add(label);
     tween(.7, e => label.scale.set(5.5 * e * label.userData.aspect, 5.5 * e, 1), { easing: ease.back });
-    const em = emojiSprite(q.word.emoji); em.position.set(q.pos.x, 17, q.pos.z - 4); em.scale.setScalar(.01); scene.add(em);
+    const em = emojiSprite(q.word.emoji); em.position.set(q.pos.x, 21, q.pos.z - 4); em.scale.setScalar(.01); scene.add(em);
     tween(.8, e => em.scale.setScalar(6 * e), { easing: ease.back }); setTimeout(() => scene.remove(em), 5000);
   }
   const colors = [0xff5a7a, 0xffd23f, 0x4cd3ff, 0x7dff7a, 0xb36bff, 0xffffff];

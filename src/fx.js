@@ -104,19 +104,21 @@ export function numberSprite(text, color = '#ffd23f') {
 
 // ---------- wide label (a whole word) and emoji sprites ----------
 export function labelSprite(text, color = '#ffd23f') {
+  const W = 1024, H = 400;
   const c = document.createElement('canvas');
-  c.width = 1024; c.height = 320;
+  c.width = W; c.height = H;
   const x = c.getContext('2d');
-  let px = 230;
+  let px = 210;
   x.font = `900 ${px}px system-ui, sans-serif`;
-  while (x.measureText(text).width > 900 && px > 60) { px -= 10; x.font = `900 ${px}px system-ui, sans-serif`; }
-  x.textAlign = 'center'; x.textBaseline = 'middle'; x.lineJoin = 'round';
-  x.lineWidth = 40; x.strokeStyle = '#5a2d0c'; x.strokeText(text, 512, 170);
-  x.fillStyle = color; x.fillText(text, 512, 170);
+  while (x.measureText(text).width > 880 && px > 60) { px -= 10; x.font = `900 ${px}px system-ui, sans-serif`; }
+  x.textAlign = 'center'; x.textBaseline = 'alphabetic'; x.lineJoin = 'round';
+  const base = 300;                                   // low baseline leaves room for accents above the letters
+  x.lineWidth = 40; x.strokeStyle = '#5a2d0c'; x.strokeText(text, W / 2, base);
+  x.fillStyle = color; x.fillText(text, W / 2, base);
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
-  s.renderOrder = 10; s.userData.aspect = 1024 / 320;
+  s.renderOrder = 10; s.userData.aspect = W / H;
   return s;
 }
 export function emojiSprite(emoji) {

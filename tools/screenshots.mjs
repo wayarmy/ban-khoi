@@ -56,11 +56,11 @@ for (let i = 0; i < 12; i++) { await ev(() => __dbg.race && __dbg.race.tap()); a
 await shot('dua-xe');
 await until(() => !__dbg.race, 120000); await wait(1000);
 // 7. farm: six plots, all ripe
-await ev(() => { const k = ['carrot', 'tomato', 'cabbage']; __dbg.S.plots.forEach((p, i) => { p.kind = k[i % 3]; p.t = Date.now() - 90000; }); __dbg.teleport(-420, 682); });
+await ev(() => { const k = ['carrot', 'tomato', 'cabbage']; __dbg.S.plots.forEach((p, i) => { p.kind = k[i % 3]; p.t = Date.now() - 90000; }); __dbg.teleport(-620, 682); });
 await wait(5000);
 await shot('nong-trai');
-// 8. the city
-await ev(() => __dbg.teleport(800, 18)); await wait(5000);
+// 8. the city: fountain plaza and tall buildings
+await ev(() => { __dbg.teleport(760, -18); __dbg.view.pitch = .62; __dbg.view.yaw = .5; __dbg.view.zoom = 1.25; }); await wait(5500);
 await shot('thanh-pho');
 
 await browser.close(); server.close();

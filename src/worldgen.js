@@ -23,7 +23,7 @@ export const ZONES = {
   start:  { name: 'Đồng cỏ',        x: 0,    z: 0,    r: 190 },
   city:   { name: 'Thành phố Khối', x: 800,  z: 0,    hw: 240, hd: 240 },
   park:   { name: 'Khu vui chơi', x: -800, z: -250, r: 150 },
-  farm:   { name: 'Nông trại',      x: -420, z: 700,  r: 140 },
+  farm:   { name: 'Nông trại',      x: -620, z: 700,  r: 140 },
   meadow: { name: 'Đồng thú',       x: 380,  z: -800, r: 170 },
 };
 export const TRACKS = {
@@ -31,9 +31,10 @@ export const TRACKS = {
   animal: { kind: 'animal', name: 'Đua thú', x: 420,  z0: -880, len: 100, lanes: 4, gap: 7 },
 };
 export const FARM = {
-  plots: [[-440, 672], [-420, 672], [-400, 672], [-440, 692], [-420, 692], [-400, 692]].map(([x, z]) => ({ x, z })),
-  kitchen: { x: -470, z: 720 },
-  barn: { x: -380, z: 740 },
+  sh: -200,                                  // the whole farm sits 200 blocks west of its first design, clear of the river
+  plots: [[-440, 672], [-420, 672], [-400, 672], [-440, 692], [-420, 692], [-400, 692]].map(([x, z]) => ({ x: x - 200, z })),
+  kitchen: { x: -470 - 200, z: 720 },
+  barn: { x: -380 - 200, z: 740 },
 };
 
 // ---------------- rivers (x as a wavy function of z, or z of x) with bridges ----------------

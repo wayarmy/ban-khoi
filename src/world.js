@@ -404,7 +404,7 @@ function buildFarm(scene) {
   box(18, 8, 12, solid(0xb83a30), b.x, 4, b.z, scene); box(19, 1, 13, solid(0x8a2a22), b.x, 8.4, b.z, scene); box(15, 1, 10, solid(0x8a2a22), b.x, 9.4, b.z, scene);
   box(5, 6, .5, solid(0xfff1d6), b.x, 3, b.z + 6.2, scene);
   staticRects.push({ x0: b.x - 9, z0: b.z - 6, x1: b.x + 9, z1: b.z + 6 });
-  const fz0 = 646, fz1 = 770, fx0 = -500, fx1 = -350;
+  const fz0 = 646, fz1 = 770, fx0 = -500 + FARM.sh, fx1 = -350 + FARM.sh;
   for (let x = fx0; x <= fx1; x += 3) for (const z of [fz0, fz1]) box(.5, 1.6, .5, wood, x, .8, z, scene);
   for (let z = fz0; z <= fz1; z += 3) for (const x of [fx0, fx1]) box(.5, 1.6, .5, wood, x, .8, z, scene);
   box(150, .35, .3, wood, (fx0 + fx1) / 2, 1.2, fz0, scene); box(150, .35, .3, wood, (fx0 + fx1) / 2, 1.2, fz1, scene);
