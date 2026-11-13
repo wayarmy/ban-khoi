@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { buildWorld, makeWoodBlock, mats, ISLAND, HALF } from './world.js';
-import { loadCharacter } from './blockhero.js';
+import { loadCharacter, VARIANTS, thumb } from './blockhero.js';
 import { Particles, numberSprite, tween, wait, ease, updateTweens } from './fx.js';
 import { initAudio, speak, sfx } from './audio.js';
 import { glyphCells, QUEST_ORDER, GLYPH_W, GLYPH_H } from './glyphs.js';
@@ -277,18 +277,51 @@ $('replay').addEventListener('click', () => {
   else if (nearQuest) speak('again_' + nearQuest.glyph, fmt(cfg.voices.again, nearQuest));
   else speak('find', cfg.voices.find);
 });
+let welcomed = false;
 $('play').addEventListener('click', async () => {
   $('title').classList.remove('show');
   await initAudio();
-  hero.play('greet', { loop: false });
-  speak('welcome', cfg.voices.welcome);
+  if (!welcomed) { welcomed = true; hero.play('greet', { loop: false }); speak('welcome', cfg.voices.welcome); }
 });
+
+// ---- choose your friend ----
+const picks = new Map();
+const urlOf = v => thumb(v).toDataURL();
+for (const v of VARIANTS) {
+  const b = document.createElement('button');
+  b.className = 'pick'; b.setAttribute('aria-label', 'Bạn ' + v.id);
+  b.innerHTML = '<img alt="">'; b.firstChild.src = urlOf(v);
+  b.addEventListener('click', () => chooseHero(v));
+  $('picker').appendChild(b); picks.set(v.id, b);
+}
+function refreshPicker() {
+  for (const [id, b] of picks) b.classList.toggle('sel', id === hero.variant.id);
+  $('heroImg').src = urlOf(hero.variant);
+}
+let swapping = false;
+async function chooseHero(v) {
+  if (swapping || (hero && hero.variant.id === v.id)) return;
+  swapping = true;
+  localStorage.setItem('khoi.hero', v.id);
+  const old = hero, pos = old.holder.position.clone(), rot = old.holder.rotation.y;
+  const nh = await loadCharacter(scene, v);
+  nh.holder.position.copy(pos); nh.holder.rotation.y = rot;
+  scene.remove(old.holder);
+  hero = nh;
+  hero.play('power', { loop: false });
+  sfx.star(); fx.emit(pos.clone().setY(2), { n: 24, colors: [0xffd23f, 0xffffff, 0xff9ad5], size: .18, up: 4, speed: 3 });
+  refreshPicker();
+  swapping = false;
+}
+$('heroBtn').addEventListener('click', () => $('title').classList.add('show'));
 
 // ---------------------------------------------------------------- boot
 const BASE = import.meta.env.BASE_URL;
 (async () => {
   cfg = await (await fetch(BASE + 'levels.json')).json();
-  hero = await loadCharacter(scene, BASE);
+  const savedHero = localStorage.getItem('khoi.hero');
+  hero = await loadCharacter(scene, VARIANTS.find(v => v.id === savedHero) || VARIANTS[0]);
+  refreshPicker();
   const saved = (localStorage.getItem('khoi.pos') || '0,6').split(',').map(Number);
   hero.holder.position.set(saved[0] || 0, 0, Number.isFinite(saved[1]) ? saved[1] : 6);
   TARGET.set(hero.holder.position.x, 1, hero.holder.position.z);
@@ -393,6 +426,6 @@ frame();
 window.__dbg = {
   get state() { const h = hero.holder.position; return { x: h.x, z: h.z, near: nearQuest && nearQuest.id, done: [...doneSet], anim: hero.state.name, trees: world.trees }; },
   teleport(x, z) { hero.holder.position.set(x, 0, z); },
-  quests, place: id => place(quests.find(q => q.id === id)), view, get hero() { return hero; }, camera,
+  quests, place: id => place(quests.find(q => q.id === id)), view, get hero() { return hero; }, camera, chooseHero: id => chooseHero(VARIANTS.find(v => v.id === id)),
   get calls() { return renderer.info.render.calls; }, get tris() { return renderer.info.render.triangles; },
 };
