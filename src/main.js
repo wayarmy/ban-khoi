@@ -393,6 +393,6 @@ frame();
 window.__dbg = {
   get state() { const h = hero.holder.position; return { x: h.x, z: h.z, near: nearQuest && nearQuest.id, done: [...doneSet], anim: hero.state.name, trees: world.trees }; },
   teleport(x, z) { hero.holder.position.set(x, 0, z); },
-  quests, place: id => place(quests.find(q => q.id === id)), view, hero, camera,
+  quests, place: id => place(quests.find(q => q.id === id)), view, get hero() { return hero; }, camera,
   get calls() { return renderer.info.render.calls; }, get tris() { return renderer.info.render.triangles; },
 };
