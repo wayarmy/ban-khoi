@@ -297,7 +297,7 @@ function buildCity(scene, animated) {
   const C = ZONES.city;
   const pave = new THREE.Mesh(new THREE.PlaneGeometry(C.hw * 2, C.hd * 2), mat(repeated(pixelTex('#9a9aa0', .2, { seed: 21 }), C.hw * 2 / 2, C.hd * 2 / 2)));
   pave.rotation.x = -Math.PI / 2; pave.position.set(C.x, .03, C.z); pave.receiveShadow = true; scene.add(pave);
-  const roadTex = pixelTex('#3d3f47', .12, { seed: 23, draw: x => { x.fillStyle = '#ffd23f'; for (let j = 2; j < 10; j++) x.fillRect(7, j, 2, 1); } });
+  const roadTex = pixelTex('#6a6d78', .12, { seed: 23, draw: x => { x.fillStyle = '#ffd23f'; for (let j = 2; j < 10; j++) x.fillRect(7, j, 2, 1); } });
   for (let k = 0; k <= 6; k++) {
     const off = -240 + k * 80;
     const v = new THREE.Mesh(new THREE.PlaneGeometry(12, C.hd * 2), mat(repeated(roadTex, 1, C.hd * 2 / 16)));

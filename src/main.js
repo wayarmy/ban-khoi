@@ -281,7 +281,7 @@ function startRace(tr) {
   const cd = $('count');
   race = new Race({
     scene, track: tr, hero, losses: S.losses,
-    onCount: n => { cd.textContent = n > 0 ? String(n) : '🏁'; cd.classList.remove('show'); void cd.offsetWidth; cd.classList.add('show'); if (n > 0) sfx.pop(n); else { sfx.win(); speak('go', T('go')); } if (n === 3) speak('racehello', T('racehello')); },
+    onCount: n => { cd.textContent = n > 0 ? String(n) : '🏁'; cd.classList.remove('show'); void cd.offsetWidth; cd.classList.add('show'); clearTimeout(cd._t); cd._t = setTimeout(() => cd.classList.remove('show'), 1000); if (n > 0) sfx.pop(n); else { sfx.win(); speak('go', T('go')); } if (n === 3) speak('racehello', T('racehello')); },
     onFinish: res => endRace(tr, res),
   });
   hero.play(tr.kind === 'car' ? 'sit' : 'idle', { loop: true });

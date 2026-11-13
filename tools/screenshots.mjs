@@ -55,11 +55,9 @@ await until(() => __dbg.race && __dbg.race.phase === 'go', 60000);
 for (let i = 0; i < 12; i++) { await ev(() => __dbg.race && __dbg.race.tap()); await wait(150); }
 await shot('dua-xe');
 await until(() => !__dbg.race, 120000); await wait(1000);
-// 7. farm
-await ev(() => __dbg.teleport(-440, 677)); await wait(3500); await ev(() => __dbg.act()); await wait(2500);
-await ev(() => { __dbg.S.plots[0].t -= 60000; });
-await ev(() => __dbg.teleport(-420, 677)); await wait(2000); await ev(() => __dbg.act()); await wait(2500);
-await ev(() => { __dbg.S.plots[1].t -= 60000; }); await ev(() => __dbg.teleport(-430, 665)); await wait(3500);
+// 7. farm: six plots, all ripe
+await ev(() => { const k = ['carrot', 'tomato', 'cabbage']; __dbg.S.plots.forEach((p, i) => { p.kind = k[i % 3]; p.t = Date.now() - 90000; }); __dbg.teleport(-420, 682); });
+await wait(5000);
 await shot('nong-trai');
 // 8. the city
 await ev(() => __dbg.teleport(800, 18)); await wait(5000);
