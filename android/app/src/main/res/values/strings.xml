@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bạn Khối</string>
+    <string name="title_activity_main">Bạn Khối</string>
+    <string name="package_name">net.mcforce.banhhoikhoi</string>
+    <string name="custom_url_scheme">net.mcforce.banhhoikhoi</string>
+</resources>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#7ec8ff">
+<title>Bạn Khối</title>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#7ec8ff;touch-action:none;
+    -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
+    font-family:system-ui,sans-serif}
+  canvas{display:block;width:100vw;height:100vh;outline:none;touch-action:none}
+  #hud{position:fixed;left:0;right:0;top:0;padding:max(10px,env(safe-area-inset-top)) 12px 0;
+    display:flex;align-items:flex-start;justify-content:space-between;pointer-events:none}
+  .btn{pointer-events:auto;width:64px;height:64px;border-radius:16px;border:0;font-size:34px;
+    background:#fff;box-shadow:0 5px 0 #0003;display:grid;place-items:center;cursor:pointer}
+  .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #0003}
+  #stars{font-size:26px;background:#fff;border-radius:16px;padding:8px 12px;box-shadow:0 5px 0 #0003;
+    min-width:44px;text-align:center;font-weight:800;color:#444}
+  #compass{width:64px;height:64px;border-radius:50%;background:#fff;box-shadow:0 5px 0 #0003;
+    display:grid;place-items:center;transition:opacity .3s}
+  #compass svg{transition:transform .08s linear}
+  #mapwrap{position:fixed;left:12px;top:calc(max(10px,env(safe-area-inset-top)) + 76px);
+    width:92px;height:92px;border-radius:14px;overflow:hidden;box-shadow:0 5px 0 #0003;background:#3d8f3a;
+    pointer-events:none;border:3px solid #fff}
+  #map{width:100%;height:100%;display:block}
+  /* walking stick (joystick) */
+  #joy{position:fixed;left:max(18px,env(safe-area-inset-left));bottom:max(28px,env(safe-area-inset-bottom));
+    width:150px;height:150px;border-radius:50%;background:#ffffff66;border:4px solid #fff;
+    touch-action:none;pointer-events:auto}
+  #knob{position:absolute;left:50%;top:50%;width:68px;height:68px;margin:-34px 0 0 -34px;border-radius:50%;
+    background:#fff;box-shadow:0 5px 0 #0003;pointer-events:none}
+  #place{position:fixed;right:max(22px,env(safe-area-inset-right));bottom:max(38px,env(safe-area-inset-bottom));
+    width:128px;height:128px;border-radius:50%;border:0;background:#ffb400;box-shadow:0 8px 0 #a56d00;
+    display:none;place-items:center;touch-action:none;animation:pulse 1.2s ease-in-out infinite}
+  #place.show{display:grid}
+  #place:active{transform:translateY(5px);box-shadow:0 3px 0 #a56d00}
+  #title,#next{position:fixed;inset:0;display:none;place-items:center;
+    background:radial-gradient(#0000,#0006)}
+  #title.show,#next.show{display:grid}
+  .big{width:min(40vw,200px);height:min(40vw,200px);border-radius:50%;border:0;
+    color:#fff;background:#3dbb5c;box-shadow:0 10px 0 #1e7a37;cursor:pointer;
+    animation:pulse 1.2s ease-in-out infinite;display:grid;place-items:center}
+  .big:active{transform:translateY(6px);box-shadow:0 4px 0 #1e7a37}
+  @keyframes pulse{50%{transform:scale(1.08)}}
+  #bigstar{position:fixed;left:50%;top:30%;width:min(40vw,200px);height:min(40vw,200px);
+    transform:translate(-50%,-50%) scale(0);pointer-events:none;filter:drop-shadow(0 8px 0 #0003)}
+  #bigstar.go{animation:starpop 1.8s cubic-bezier(.3,1.6,.5,1) forwards}
+  @keyframes starpop{0%{transform:translate(-50%,-50%) scale(0) rotate(-40deg)}
+    40%{transform:translate(-50%,-50%) scale(1.2) rotate(8deg)}
+    70%{transform:translate(-50%,-50%) scale(1) rotate(0)}
+    100%{transform:translate(-50%,-120%) scale(.3) rotate(0);opacity:0}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <button class="btn" id="replay" aria-label="Nghe lại"><svg width="38" height="38" viewBox="0 0 24 24"><path fill="#2b6cb0" d="M3 9v6h4l5 4V5L7 9z"/><path fill="none" stroke="#2b6cb0" stroke-width="2" stroke-linecap="round" d="M15.5 8.5a5 5 0 010 7M18 6a8.5 8.5 0 010 12"/></svg></button>
+  <div id="compass" aria-label="Mũi tên chỉ đường"><svg id="arrow" width="46" height="46" viewBox="0 0 24 24"><path fill="#ff7a00" stroke="#a04800" stroke-width="1" stroke-linejoin="round" d="M12 2l7 18-7-4-7 4z"/></svg></div>
+  <div id="stars"><span style="color:#e0a800">★</span> 0</div>
+</div>
+<div id="mapwrap"><canvas id="map" width="92" height="92"></canvas></div>
+<div id="joy"><div id="knob"></div></div>
+<button id="place" aria-label="Đặt khối"><svg width="76" height="76" viewBox="0 0 24 24"><path fill="#fff" stroke="#7a4a1c" stroke-width="1" stroke-linejoin="round" d="M12 2l9 5v10l-9 5-9-5V7z"/><path fill="none" stroke="#7a4a1c" stroke-width="1" d="M3 7l9 5 9-5M12 12v10"/></svg></button>
+<div id="bigstar"><svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="#ffd23f" stroke="#c98a00" stroke-width=".8" d="M12 2l3 6.6 7.2.8-5.4 4.9 1.5 7.1L12 17.6 5.7 21.4l1.5-7.1L1.8 9.4 9 8.6z"/></svg></div>
+<div id="title" class="show"><button class="big" id="play" aria-label="Chơi"><svg viewBox="0 0 24 24" width="60%" height="60%"><path fill="#fff" d="M8 5v14l11-7z"/></svg></button></div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

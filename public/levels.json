@@ -1,0 +1,18 @@
+{
+  "voices": {
+    "welcome": "Chào bạn! Mình là Bạn Khối! Hãy đi tìm cột sáng nhé!",
+    "intro": "Xếp các khối thành {kind} {name} nhé!",
+    "done": "Giỏi quá! Đây là {kind} {name}!",
+    "again": "Đây là {kind} {name}!",
+    "all": "Bạn giỏi quá! Bạn đã xếp hết rồi!",
+    "find": "Hãy đi tìm cột sáng nhé!",
+    "press": "Bấm vào nút vàng để xếp khối nhé!"
+  },
+  "digits": ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"],
+  "letters": {
+    "A": "a", "B": "bê", "C": "xê", "D": "dê", "E": "e", "F": "ép phờ", "G": "giê",
+    "H": "hát", "I": "i", "J": "di", "K": "ca", "L": "e lờ", "M": "em mờ", "N": "en nờ",
+    "O": "o", "P": "pê", "Q": "quy", "R": "e rờ", "S": "ét sì", "T": "tê", "U": "u",
+    "V": "vê", "W": "đúp bồ liu", "X": "ích xì", "Y": "i dài", "Z": "dét"
+  }
+}
