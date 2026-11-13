@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { buildWorld, makeWoodBlock, mats, ISLAND, HALF } from './world.js';
-import { loadCharacter } from './character.js';
+import { loadCharacter } from './blockhero.js';
 import { Particles, numberSprite, tween, wait, ease, updateTweens } from './fx.js';
 import { initAudio, speak, sfx } from './audio.js';
 import { glyphCells, QUEST_ORDER, GLYPH_W, GLYPH_H } from './glyphs.js';
