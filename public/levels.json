@@ -6,13 +6,23 @@
     "again": "Đây là {kind} {name}!",
     "all": "Bạn giỏi quá! Bạn đã xếp hết rồi!",
     "find": "Hãy đi tìm cột sáng nhé!",
-    "press": "Bấm vào nút vàng để xếp khối nhé!"
-  },
-  "digits": ["không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"],
-  "letters": {
-    "A": "a", "B": "bê", "C": "xê", "D": "dê", "E": "e", "F": "ép phờ", "G": "giê",
-    "H": "hát", "I": "i", "J": "di", "K": "ca", "L": "e lờ", "M": "em mờ", "N": "en nờ",
-    "O": "o", "P": "pê", "Q": "quy", "R": "e rờ", "S": "ét sì", "T": "tê", "U": "u",
-    "V": "vê", "W": "đúp bồ liu", "X": "ích xì", "Y": "i dài", "Z": "dét"
+    "press": "Bấm vào nút vàng nhé!",
+    "needprize": "Thiếu một khối vàng! Hãy đi thi đua để thắng nhé!",
+    "wordintro": "Ghép các thẻ chữ thành từ {say} nhé!",
+    "wordlocked": "Cần thẻ chữ: {letters}. Hãy đi xếp các chữ này trước nhé!",
+    "worddone": "Giỏi quá! Từ này là {say}!",
+    "cardnew": "Bạn nhận được thẻ {name}!",
+    "racehello": "Đua nào! Chạm thật nhanh nhé!",
+    "go": "Chạy!",
+    "racewin": "Bạn thắng rồi! Giỏi quá! Bạn nhận được khối vàng!",
+    "racelose": "Thử lại nhé! Chạm nhanh hơn nữa!",
+    "catch": "Bắt được {kind} rồi!",
+    "plant": "Gieo hạt nào!",
+    "harvest": "Thu hoạch rau!",
+    "cook": "Nấu ăn nào!",
+    "yum": "Ngon quá!",
+    "feed": "Ăn đi nào!",
+    "item": "Bạn nhận được một món đồ mới!",
+    "noveg": "Cần ít nhất hai loại rau nhé!"
   }
 }

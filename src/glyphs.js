@@ -1,5 +1,6 @@
-// 5 x 7 pixel glyphs for digits and letters. '#' = a block goes here.
-const G = {
+// 5 x 7 pixel glyphs: digits and the 29 letters of the Vietnamese alphabet.
+// '#' = a block goes here. Marks (^ ˘ horn, bar of Đ) are extra cells above / beside the base letter.
+const B = {
   '0': ['.###.', '#...#', '#..##', '#.#.#', '##..#', '#...#', '.###.'],
   '1': ['..#..', '.##..', '..#..', '..#..', '..#..', '..#..', '.###.'],
   '2': ['.###.', '#...#', '....#', '...#.', '..#..', '.#...', '#####'],
@@ -15,11 +16,9 @@ const G = {
   C: ['.###.', '#...#', '#....', '#....', '#....', '#...#', '.###.'],
   D: ['####.', '#...#', '#...#', '#...#', '#...#', '#...#', '####.'],
   E: ['#####', '#....', '#....', '####.', '#....', '#....', '#####'],
-  F: ['#####', '#....', '#....', '####.', '#....', '#....', '#....'],
   G: ['.###.', '#...#', '#....', '#.###', '#...#', '#...#', '.####'],
   H: ['#...#', '#...#', '#...#', '#####', '#...#', '#...#', '#...#'],
   I: ['.###.', '..#..', '..#..', '..#..', '..#..', '..#..', '.###.'],
-  J: ['..###', '...#.', '...#.', '...#.', '...#.', '#..#.', '.##..'],
   K: ['#...#', '#..#.', '#.#..', '##...', '#.#..', '#..#.', '#...#'],
   L: ['#....', '#....', '#....', '#....', '#....', '#....', '#####'],
   M: ['#...#', '##.##', '#.#.#', '#.#.#', '#...#', '#...#', '#...#'],
@@ -32,21 +31,32 @@ const G = {
   T: ['#####', '..#..', '..#..', '..#..', '..#..', '..#..', '..#..'],
   U: ['#...#', '#...#', '#...#', '#...#', '#...#', '#...#', '.###.'],
   V: ['#...#', '#...#', '#...#', '#...#', '#...#', '.#.#.', '..#..'],
-  W: ['#...#', '#...#', '#...#', '#.#.#', '#.#.#', '##.##', '#...#'],
   X: ['#...#', '#...#', '.#.#.', '..#..', '.#.#.', '#...#', '#...#'],
   Y: ['#...#', '#...#', '.#.#.', '..#..', '..#..', '..#..', '..#..'],
-  Z: ['#####', '....#', '...#.', '..#..', '.#...', '#....', '#####'],
+};
+const CIRC = [[2, -2], [1, -1], [3, -1]];                      // ^
+const BREVE = [[0, -2], [4, -2], [1, -1], [2, -1], [3, -1]];   // ˘
+const HORN = [[5, 0], [5, 1]];                                 // Ơ Ư
+// base letter + extra cells
+const EXTRA = {
+  'Ă': ['A', BREVE], 'Â': ['A', CIRC], 'Ê': ['E', CIRC], 'Ô': ['O', CIRC],
+  'Ơ': ['O', HORN], 'Ư': ['U', HORN], 'Đ': ['D', [[-1, 3]]],
 };
 
-export const GLYPH_W = 5, GLYPH_H = 7;
+export const DIGITS = '1234567890'.split('');
+// the 29 letters of the Vietnamese alphabet, in order
+export const LETTERS = 'A Ă Â B C D Đ E Ê G H I K L M N O Ô Ơ P Q R S T U Ư V X Y'.split(' ');
+export const QUEST_ORDER = [...DIGITS, ...LETTERS];
 
-// cells ordered bottom row first, left to right: the glyph "grows" upward
+// cells ordered bottom row first, left to right: the glyph grows upward
 export function glyphCells(ch) {
-  const rows = G[ch];
+  const [base, extra] = EXTRA[ch] || [ch, []];
+  const rows = B[base];
   const cells = [];
-  for (let r = GLYPH_H - 1; r >= 0; r--)
-    for (let c = 0; c < GLYPH_W; c++) if (rows[r][c] === '#') cells.push([c, r]);
-  return cells;
+  rows.forEach((row, r) => { for (let c = 0; c < 5; c++) if (row[c] === '#') cells.push([c, r]); });
+  for (const e of extra) cells.push([e[0], e[1]]);
+  const cs = cells.map(c => c[0]), rs = cells.map(c => c[1]);
+  const c0 = Math.min(...cs), c1 = Math.max(...cs), r0 = Math.min(...rs), r1 = Math.max(...rs);
+  cells.sort((a, b) => b[1] - a[1] || a[0] - b[0]);
+  return { cells, cols: c1 - c0 + 1, c0, rows: r1 - r0 + 1, r0, r1 };
 }
-export const QUEST_ORDER = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-  ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];

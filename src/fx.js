@@ -101,3 +101,49 @@ export function numberSprite(text, color = '#ffd23f') {
   s.renderOrder = 10;
   return s;
 }
+
+// ---------- wide label (a whole word) and emoji sprites ----------
+export function labelSprite(text, color = '#ffd23f') {
+  const c = document.createElement('canvas');
+  c.width = 1024; c.height = 320;
+  const x = c.getContext('2d');
+  let px = 230;
+  x.font = `900 ${px}px system-ui, sans-serif`;
+  while (x.measureText(text).width > 900 && px > 60) { px -= 10; x.font = `900 ${px}px system-ui, sans-serif`; }
+  x.textAlign = 'center'; x.textBaseline = 'middle'; x.lineJoin = 'round';
+  x.lineWidth = 40; x.strokeStyle = '#5a2d0c'; x.strokeText(text, 512, 170);
+  x.fillStyle = color; x.fillText(text, 512, 170);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
+  s.renderOrder = 10; s.userData.aspect = 1024 / 320;
+  return s;
+}
+export function emojiSprite(emoji) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const x = c.getContext('2d');
+  x.font = '190px "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+  x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText(emoji, 128, 140);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
+  s.renderOrder = 10;
+  return s;
+}
+// a standing card with a letter on it (for the word quests)
+export function letterCard(letter, hue = 40) {
+  const c = document.createElement('canvas');
+  c.width = 128; c.height = 168;
+  const x = c.getContext('2d');
+  x.fillStyle = `hsl(${hue},90%,94%)`; x.fillRect(0, 0, 128, 168);
+  x.strokeStyle = `hsl(${hue},80%,45%)`; x.lineWidth = 10; x.strokeRect(5, 5, 118, 158);
+  x.fillStyle = '#3a2a10'; x.font = '900 110px system-ui, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText(letter, 64, 90);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+  const face = new THREE.MeshLambertMaterial({ map: tex }), edge = new THREE.MeshLambertMaterial({ color: new THREE.Color(`hsl(${hue},80%,55%)`) });
+  const m = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.9, .35), [edge, edge, edge, edge, face, edge]);
+  m.castShadow = true;
+  return m;
+}

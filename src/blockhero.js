@@ -73,8 +73,8 @@ export function thumb(v) {
   return c;
 }
 
-const CLIP_LEN = { greet: 2, nod: 1.1, clap: 2.2, jump: 1.1, power: 1.7 };
-const KNOWN = ['idle', 'walk', 'run', 'greet', 'nod', 'clap', 'dance', 'dance2', 'jump', 'power'];
+const CLIP_LEN = { greet: 2, nod: 1.1, clap: 2.2, jump: 1.1, power: 1.7, pickup: .5, place: .55, shake: 1.2, plant: 1.1, eat: 1.4, sit: 99 };
+const KNOWN = ['idle', 'walk', 'run', 'greet', 'nod', 'clap', 'dance', 'dance2', 'jump', 'power', 'pickup', 'place', 'shake', 'plant', 'eat', 'sit'];
 
 export async function loadCharacter(scene, variant = VARIANTS[0]) {
   const v = variant;
@@ -154,6 +154,22 @@ export async function loadCharacter(scene, variant = VARIANTS[0]) {
     }
   }
 
+  const acc = new THREE.Group(); head.add(acc);
+  const torsoAcc = new THREE.Group(); torso.add(torsoAcc);
+  function equip(id) {
+    acc.clear(); torsoAcc.clear();
+    const b = (w, h, d, c, x, y, z, g = acc) => { const m = part(w, h, d, colorM(c, 60 + (x * 7 + y * 3) | 0)); m.position.set(x, y, z); g.add(m); return m; };
+    switch (id) {
+      case 'hat': b(1.9, .14, 1.9, '#222733', 0, 1.52, 0); b(1.1, 1.0, 1.1, '#222733', 0, 2.05, 0); b(1.12, .22, 1.12, '#e04a5a', 0, 1.72, 0); break;
+      case 'crown': b(1.3, .35, 1.3, '#ffd23f', 0, 1.6, 0); for (const [x, z] of [[-.5, -.5], [.5, -.5], [-.5, .5], [.5, .5], [0, 0]]) b(.28, .38, .28, '#ffd23f', x, 1.93, z); b(.2, .2, .1, '#ff4d5e', 0, 1.6, .67); break;
+      case 'glasses': b(.55, .5, .1, '#1c2330', -.42, .84, .8); b(.55, .5, .1, '#1c2330', .42, .84, .8); b(.3, .1, .1, '#1c2330', 0, .9, .8); b(.35, .3, .06, '#8fd3ff', -.42, .84, .86); b(.35, .3, .06, '#8fd3ff', .42, .84, .86); break;
+      case 'bow': b(.5, .4, .3, '#ff5f95', -.35, 1.62, .2); b(.5, .4, .3, '#ff5f95', .35, 1.62, .2); b(.26, .26, .3, '#c2185b', 0, 1.62, .2); break;
+      case 'scarf': b(1.15, .3, .95, '#e04a5a', 0, 1.0, 0, torsoAcc); b(.35, .9, .2, '#e04a5a', .3, .55, .5, torsoAcc); break;
+      case 'balloon': b(.06, 2.6, .06, '#dddddd', .9, 2.6, 0); b(.8, .9, .8, '#ff4d5e', .9, 4.2, 0); b(.3, .3, .3, '#c2185b', .9, 3.7, 0); break;
+      default: break;
+    }
+    return id;
+  }
   const arm = s => { const g = new THREE.Group(); g.position.set(s * .64, .9, 0); g.add(part(.26, .72, .26, armM, -.3)); torso.add(g); return g; };
   const armL = arm(-1), armR = arm(1);
   const leg = (x, z) => { const g = new THREE.Group(); g.position.set(x, .7, z); g.add(part(.5, .7, .5, legM, -.35)); root.add(g); return g; };
@@ -163,7 +179,7 @@ export async function loadCharacter(scene, variant = VARIANTS[0]) {
   const P = () => ({ legA: 0, bob: 0, hop: 0, sq: 1, pitch: 0, tilt: 0, aL: 0, aR: 0, swing: 0, lean: 0, spinRate: 0, wig: 0, tail: 0 });
   const cur = P();
   const st = { name: 'idle', oneshot: false };
-  let t = 0, clock = 0, dur = 0, then = 'idle', speed = 1, spin = 0, blinkT = 3;
+  let t = 0, clock = 0, dur = 0, then = 'idle', speed = 1, spin = 0, blinkT = 3, carrying = false;
 
   function target(name, tt, k) {
     const p = P();
@@ -180,6 +196,12 @@ export async function loadCharacter(scene, variant = VARIANTS[0]) {
         const air = Math.sin(Math.min(1, Math.max(0, (k - .18) / .72)) * Math.PI);
         p.hop = air * 1.5; p.sq = k < .18 ? 1 - k / .18 * .22 : 1 + air * .14; p.aL = -2.5 * air; p.aR = 2.5 * air; p.legA = air * .4; break;
       }
+      case 'pickup': { p.sq = 1 - Math.sin(k * Math.PI) * .22; p.pitch = Math.sin(k * Math.PI) * .5; p.aL = -.9 * Math.sin(k * Math.PI); p.aR = .9 * Math.sin(k * Math.PI); break; }
+      case 'place': { p.hop = Math.sin(k * Math.PI) * .45; p.aL = -2.5 + k * 1.2; p.aR = 2.5 - k * 1.2; p.sq = 1 + Math.sin(k * Math.PI) * .08; break; }
+      case 'shake': { p.tilt = Math.sin(tt * 16) * .22 * (1 - k); p.wig = Math.sin(tt * 16) * .25 * (1 - k); p.aL = -.3; p.aR = .3; break; }
+      case 'plant': { p.pitch = .55 + Math.sin(tt * 9) * .12; p.lean = .25; p.aL = -.7; p.aR = .7; p.swing = Math.sin(tt * 9) * .5; p.sq = .92; break; }
+      case 'eat': { p.pitch = Math.sin(tt * 14) * .18; p.hop = Math.max(0, Math.sin(k * Math.PI * 3)) * .1; p.aL = -1.1; p.aR = 1.1; p.swing = -.9; break; }
+      case 'sit': { p.sq = .8; p.legA = 0; p.aL = -.35; p.aR = .35; p.bob = -.3; p.tilt = Math.sin(tt * 1.5) * .04; break; }
       case 'power': { p.aL = -2.6; p.aR = 2.6; p.pitch = -.18; p.sq = 1 + Math.sin(tt * 18) * .05; p.hop = Math.max(0, Math.sin(k * Math.PI)) * .25; p.wig = Math.sin(tt * 25) * .08; break; }
       default: {
         p.bob = Math.sin(tt * 2) * .025; p.sq = 1 + Math.sin(tt * 2) * .014;
@@ -187,6 +209,7 @@ export async function loadCharacter(scene, variant = VARIANTS[0]) {
         p.tail = Math.sin(tt * 2.2) * .12;
       }
     }
+    if (carrying) { p.aL = -2.75; p.aR = 2.75; p.swing = 0; if (name === 'idle') p.bob += .02; }
     return p;
   }
 
@@ -231,5 +254,5 @@ export async function loadCharacter(scene, variant = VARIANTS[0]) {
   }
   play('idle');
 
-  return { holder, root, mixer: { update }, play, locomote, state: st, has: n => KNOWN.includes(n), variant: v };
+  return { holder, root, mixer: { update }, play, locomote, state: st, has: n => KNOWN.includes(n), variant: v, equip, setCarry: on => { carrying = on; }, get carrying() { return carrying; }, head };
 }

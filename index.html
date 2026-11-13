@@ -52,6 +52,39 @@
     animation:pulse 1.2s ease-in-out infinite;display:grid;place-items:center}
   .big:active{transform:translateY(6px);box-shadow:0 4px 0 #1e7a37}
   @keyframes pulse{50%{transform:scale(1.08)}}
+  #act{position:fixed;right:max(22px,env(safe-area-inset-right));bottom:max(38px,env(safe-area-inset-bottom));
+    width:128px;height:128px;border-radius:50%;border:0;background:#ffb400;box-shadow:0 8px 0 #a56d00;
+    display:none;place-items:center;touch-action:none;animation:pulse 1.2s ease-in-out infinite;font-size:66px;line-height:1}
+  #act.show{display:grid}
+  #act:active{transform:translateY(5px);box-shadow:0 3px 0 #a56d00}
+  #act.on{background:#3dbb5c;box-shadow:0 8px 0 #1e7a37}
+  #tap{position:fixed;left:50%;bottom:max(40px,env(safe-area-inset-bottom));transform:translateX(-50%);
+    width:min(58vw,230px);height:min(58vw,230px);border-radius:50%;border:0;background:#ff5a4d;box-shadow:0 12px 0 #a02a20;
+    display:none;place-items:center;font-size:96px;touch-action:none}
+  #tap.show{display:grid}
+  #tap:active{transform:translateX(-50%) translateY(8px);box-shadow:0 4px 0 #a02a20}
+  #count{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);font-size:min(60vw,260px);font-weight:900;color:#fff;
+    -webkit-text-stroke:10px #5a2d0c;paint-order:stroke fill;pointer-events:none;display:none;text-shadow:0 10px 0 #0003}
+  #count.show{display:block;animation:cpop .9s ease-out}
+  @keyframes cpop{0%{transform:translate(-50%,-50%) scale(.3)}40%{transform:translate(-50%,-50%) scale(1.2)}100%{transform:translate(-50%,-50%) scale(1)}}
+  #toast{position:fixed;left:50%;top:26%;transform:translate(-50%,-50%) scale(0);font-size:min(36vw,170px);pointer-events:none;
+    filter:drop-shadow(0 8px 0 #0003);text-align:center}
+  #toast.go{animation:toast 2.2s cubic-bezier(.3,1.6,.5,1) forwards}
+  @keyframes toast{0%{transform:translate(-50%,-50%) scale(0)}20%{transform:translate(-50%,-50%) scale(1.15)}75%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-70%) scale(.9);opacity:0}}
+  #bag{position:fixed;left:50%;top:calc(max(10px,env(safe-area-inset-top)) + 74px);transform:translateX(-50%);display:flex;gap:6px;pointer-events:none}
+  #bag span{background:#fff;border-radius:12px;padding:3px 9px;font-size:22px;font-weight:800;color:#444;box-shadow:0 3px 0 #0003}
+  #cardsBtn{position:fixed;left:12px;top:calc(max(10px,env(safe-area-inset-top)) + 178px);width:92px;height:52px;border-radius:14px;border:0;
+    background:#fff;box-shadow:0 5px 0 #0003;display:flex;align-items:center;justify-content:center;gap:6px;font-size:28px;cursor:pointer}
+  #cardsBtn b{font-size:24px;color:#444}
+  #cardsBtn:active{transform:translateY(3px)}
+  #cards{position:fixed;inset:0;background:#000a;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:20px;box-sizing:border-box}
+  #cards.show{display:flex}
+  #cardsGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-height:68vh;overflow:auto;width:min(94vw,440px);padding:6px;touch-action:pan-y}
+  .card{aspect-ratio:3/4;background:#fffbe8;border:4px solid #c98a00;border-radius:12px;display:grid;place-items:center;font-size:min(10vw,44px);font-weight:900;color:#3a2a10;box-shadow:0 4px 0 #0004;cursor:pointer}
+  .card.num{background:#eaf6ff;border-color:#2b6cb0}
+  .card:active{transform:translateY(3px)}
+  .big#cardsClose{width:84px;height:84px;background:#e0524a;box-shadow:0 8px 0 #9c2a24;animation:none}
+
   #bigstar{position:fixed;left:50%;top:30%;width:min(40vw,200px);height:min(40vw,200px);
     transform:translate(-50%,-50%) scale(0);pointer-events:none;filter:drop-shadow(0 8px 0 #0003)}
   #bigstar.go{animation:starpop 1.8s cubic-bezier(.3,1.6,.5,1) forwards}
@@ -70,7 +103,13 @@
 </div>
 <div id="mapwrap"><canvas id="map" width="92" height="92"></canvas></div>
 <div id="joy"><div id="knob"></div></div>
-<button id="place" aria-label="Đặt khối"><svg width="76" height="76" viewBox="0 0 24 24"><path fill="#fff" stroke="#7a4a1c" stroke-width="1" stroke-linejoin="round" d="M12 2l9 5v10l-9 5-9-5V7z"/><path fill="none" stroke="#7a4a1c" stroke-width="1" d="M3 7l9 5 9-5M12 12v10"/></svg></button>
+<button id="act" aria-label="Làm"><span id="actIcon">🧱</span></button>
+<button id="tap" aria-label="Chạy nhanh"><span>👆</span></button>
+<div id="count"></div>
+<div id="toast"></div>
+<div id="bag"></div>
+<button id="cardsBtn" aria-label="Thẻ bài"><span>🃏</span><b id="cardsN">0</b></button>
+<div id="cards"><div id="cardsGrid"></div><button class="big" id="cardsClose" aria-label="Đóng"><svg viewBox="0 0 24 24" width="60%" height="60%"><path fill="#fff" d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg></button></div>
 <div id="bigstar"><svg viewBox="0 0 24 24" width="100%" height="100%"><path fill="#ffd23f" stroke="#c98a00" stroke-width=".8" d="M12 2l3 6.6 7.2.8-5.4 4.9 1.5 7.1L12 17.6 5.7 21.4l1.5-7.1L1.8 9.4 9 8.6z"/></svg></div>
 <div id="title" class="show"><div id="pickwrap"><div id="picker"></div><button class="big" id="play" aria-label="Chơi"><svg viewBox="0 0 24 24" width="60%" height="60%"><path fill="#fff" d="M8 5v14l11-7z"/></svg></button></div></div>
 <button id="heroBtn" aria-label="Đổi bạn"><img id="heroImg" alt=""></button>
