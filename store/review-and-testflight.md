@@ -8,7 +8,7 @@ Dán nguyên văn tiếng Anh (người xét duyệt đọc tiếng Anh).
 Sign-in required: **tắt** (không cần tài khoản).
 
 ```
-Ban Khoi is an offline 3D learning game for young children (ages 4-7). No account, login, server or network connection is needed. No ads, no in-app purchases, no analytics, no external links, no data collection.
+Nicky's Blocks is an offline 3D learning game for young children (ages 4-7). No account, login, server or network connection is needed. No ads, no in-app purchases, no analytics, no external links, no data collection.
 
 How to test (about 2 minutes):
 1. Launch the app and tap the large green play button. Optionally pick one of six characters on the first screen first.
@@ -26,7 +26,7 @@ The game is made with a web rendering engine (Three.js) packaged with Capacitor.
 
 | Mục | Điền |
 |---|---|
-| Beta App Description | Ban Khoi is a 3D learning game for young children. Build numbers and letters from blocks, explore a big island. |
+| Beta App Description | Nicky's Blocks is a 3D learning game for young children. Build numbers and letters from blocks, explore a big island. |
 | Feedback Email | quanpc294@gmail.com |
 | What to Test | Walk with the stick, build a number or letter with the yellow button, check that the voice reads aloud, try a race, plant and harvest on the farm. Tell us about lag, crashes, or anything confusing for a child. |
 | Beta App Review: Notes | Dùng lại đoạn Review Notes ở trên |

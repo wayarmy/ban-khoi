@@ -4,7 +4,7 @@ Add it in App Store Connect with the language menu: English (U.S.). Optional, bu
 
 | Field | Text |
 |---|---|
-| Name (30) | Ban Khoi: Blocks and ABC |
+| Name (30) | Nicky's Blocks: Blocks and ABC |
 | Subtitle (30) | Build numbers and letters |
 
 **Promotional Text (170)**
@@ -22,7 +22,7 @@ kids,toddler,learn,numbers,letters,abc,123,vietnamese,blocks,preschool,3d,educat
 **Description (4000)**
 
 ```
-Ban Khoi is a 3D game for children aged 4 to 7, including children who cannot read yet. All guidance is given by voice and pictures.
+Nicky's Blocks is a 3D game for children aged 4 to 7, including children who cannot read yet. All guidance is given by voice and pictures.
 
 Your child steers a cute block buddy around a huge island made of cubes. Glowing beams mark quests. At each one, one tap makes the buddy run to fetch every wooden block, carry it over its head and stack it on the wall to form a number or a letter. Each block that lands is named out loud.
 
@@ -56,5 +56,5 @@ SAFE FOR CHILDREN
 **What's New**
 
 ```
-The first version of Ban Khoi. Have fun!
+The first version of Nicky's Blocks. Have fun!
 ```

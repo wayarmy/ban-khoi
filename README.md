@@ -1,4 +1,4 @@
-# Bạn Khối
+# Nicky's Blocks
 
 Game 3D cho bé 5 tuổi chưa biết đọc: đi quanh một hòn đảo khối vuông, xếp khối gỗ thành số và chữ cái.
 Có giọng nói hướng dẫn, không có chữ để đọc, không quảng cáo, không thu dữ liệu.

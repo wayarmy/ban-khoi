@@ -1,6 +1,6 @@
 {
   "appId": "net.mcforce.banhhoikhoi",
-  "appName": "Bạn Khối",
+  "appName": "Nicky's Blocks",
   "webDir": "dist",
   "android": { "backgroundColor": "#7ec8ff" },
   "server": { "androidScheme": "https" }

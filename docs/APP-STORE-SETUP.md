@@ -1,4 +1,4 @@
-# Đưa Bạn Khối lên TestFlight và App Store
+# Đưa Nicky's Blocks lên TestFlight và App Store
 
 Phần em đã làm sẵn: ứng dụng iOS, biểu tượng, màn hình chờ, khai báo riêng tư, trang chính sách riêng tư, ảnh chụp màn hình, toàn bộ chữ cho App Store, và quy trình tự động ký rồi gửi lên TestFlight.
 Phần anh cần làm: những việc cần tài khoản Apple và thẻ thanh toán. Làm theo thứ tự dưới đây.
@@ -19,7 +19,7 @@ Khi xong, mở https://developer.apple.com/account, mục **Membership details**
 
 1. Vào https://developer.apple.com/account/resources/identifiers/list
 2. Bấm dấu **+**, chọn **App IDs**, bấm Continue, chọn **App**, Continue.
-3. Description: `Ban Khoi`. Bundle ID: chọn **Explicit** và gõ `net.mcforce.banhhoikhoi`.
+3. Description: `Nicky's Blocks`. Bundle ID: chọn **Explicit** và gõ `net.mcforce.banhhoikhoi`.
 4. Không cần bật thêm khả năng nào. Bấm Continue, rồi Register.
 
 Nếu muốn mã khác (ví dụ `com.tenanh.bankhoi`), báo em để em đổi trong dự án trước khi build.
@@ -27,7 +27,7 @@ Nếu muốn mã khác (ví dụ `com.tenanh.bankhoi`), báo em để em đổi 
 ## Bước 3. Tạo ứng dụng trên App Store Connect (anh làm)
 
 1. Vào https://appstoreconnect.apple.com, mục **Apps**, bấm **+**, **New App**.
-2. Platforms: iOS. Name: `Bạn Khối`. Primary Language: Vietnamese.
+2. Platforms: iOS. Name: `Nicky's Blocks`. Primary Language: Vietnamese.
 3. Bundle ID: chọn `net.mcforce.banhhoikhoi`. SKU: `banhkhoi001`. User Access: Full Access.
 4. Bấm Create.
 

@@ -6,7 +6,7 @@ Sao chép từng mục vào App Store Connect. Số trong ngoặc là giới h�
 
 | Mục | Điền |
 |---|---|
-| Name (30) | Bạn Khối |
+| Name (30) | Nicky's Blocks |
 | Subtitle (30) | Xếp khối học số và chữ cái |
 | Bundle ID | net.mcforce.banhhoikhoi |
 | SKU | banhkhoi001 |
@@ -27,7 +27,7 @@ Sao chép từng mục vào App Store Connect. Số trong ngoặc là giới h�
 **Promotional Text (170)**
 
 ```
-Cùng Bạn Khối khám phá hòn đảo khối vuông: xếp khối thành số và chữ cái, ghép từ, đua xe, trồng rau, nuôi thú. Không quảng cáo.
+Cùng Nicky's Blocks khám phá hòn đảo khối vuông: xếp khối thành số và chữ cái, ghép từ, đua xe, trồng rau, nuôi thú. Không quảng cáo.
 ```
 
 **Keywords (100, ngăn bằng dấu phẩy, không dấu cách)**
@@ -39,7 +39,7 @@ trẻ em,học số,chữ cái,bé học,mầm non,xếp khối,tiếng việt,g
 **Description (4000)**
 
 ```
-Bạn Khối là trò chơi 3D dành cho bé từ 4 đến 7 tuổi, kể cả bé chưa biết đọc. Mọi hướng dẫn đều bằng giọng nói và hình ảnh.
+Nicky's Blocks là trò chơi 3D dành cho bé từ 4 đến 7 tuổi, kể cả bé chưa biết đọc. Mọi hướng dẫn đều bằng giọng nói và hình ảnh.
 
 Bé điều khiển một bạn khối đáng yêu đi khắp hòn đảo rộng lớn làm từ những khối vuông. Trên đảo có những cột sáng. Đi đến cột sáng, bấm nút vàng, bạn khối sẽ chạy đi nhặt từng khối gỗ, bê lên đầu và xếp lên tường để tạo thành một con số hay một chữ cái. Mỗi khối đặt xuống, bé nghe đọc tên.
 
@@ -69,13 +69,13 @@ AN TOÀN CHO BÉ
 - Không liên kết ra ngoài
 - Chơi được khi không có mạng
 
-Bạn Khối được thiết kế để bé chơi vài phút mỗi lần: nút to, chạm một lần, sai không bị phạt, đúng thì mừng thật to.
+Nicky's Blocks được thiết kế để bé chơi vài phút mỗi lần: nút to, chạm một lần, sai không bị phạt, đúng thì mừng thật to.
 ```
 
 **What's New (phiên bản đầu)**
 
 ```
-Phiên bản đầu tiên của Bạn Khối. Chúc bé chơi vui!
+Phiên bản đầu tiên của Nicky's Blocks. Chúc bé chơi vui!
 ```
 
 ## Ảnh chụp màn hình
