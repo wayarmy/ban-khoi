@@ -115,6 +115,9 @@ jobs:
             "<key>teamID</key><string>$TEAM_ID</string>" \
             '<key>signingStyle</key><string>manual</string>' \
             '<key>uploadSymbols</key><true/>' \
+            '<key>provisioningProfiles</key><dict>' \
+            "<key>net.mcforce.banhhoikhoi</key><string>$PROFILE_UUID</string>" \
+            '</dict>' \
             '</dict></plist>' > "$RUNNER_TEMP/ExportOptions.plist"
           xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export" \
