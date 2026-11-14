@@ -99,7 +99,20 @@
 <div id="hud">
   <button class="btn" id="replay" aria-label="Nghe lại"><svg width="38" height="38" viewBox="0 0 24 24"><path fill="#2b6cb0" d="M3 9v6h4l5 4V5L7 9z"/><path fill="none" stroke="#2b6cb0" stroke-width="2" stroke-linecap="round" d="M15.5 8.5a5 5 0 010 7M18 6a8.5 8.5 0 010 12"/></svg></button>
   <div id="compass" aria-label="Mũi tên chỉ đường"><svg id="arrow" width="46" height="46" viewBox="0 0 24 24"><path fill="#ff7a00" stroke="#a04800" stroke-width="1" stroke-linejoin="round" d="M12 2l7 18-7-4-7 4z"/></svg></div>
-  <div id="stars"><span style="color:#e0a800">★</span> 0</div>
+  <div style="display:flex;gap:10px;align-items:flex-start;pointer-events:auto">
+    <div id="stars"><span style="color:#e0a800">★</span> 0</div>
+    <button class="btn" id="resetBtn" aria-label="Chơi lại từ đầu" style="width:48px;height:48px;font-size:24px"><svg width="26" height="26" viewBox="0 0 24 24"><path fill="none" stroke="#d04444" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M4 4v6h6M20 20v-6h-6"/><path fill="none" stroke="#d04444" stroke-width="2.4" stroke-linecap="round" d="M5 10a7 7 0 0112-4.4M19 14a7 7 0 01-12 4.4"/></svg></button>
+  </div>
+</div>
+<div id="resetConfirm" style="position:fixed;inset:0;display:none;place-items:center;background:radial-gradient(#0000,#0008);z-index:50">
+  <div style="background:#fff;border-radius:20px;padding:28px 24px;max-width:280px;text-align:center;box-shadow:0 8px 0 #0003">
+    <div style="font-size:50px">🔄</div>
+    <div style="font-size:20px;font-weight:800;color:#444;margin:10px 0 20px">Chơi lại từ đầu? Mất hết sao và đồ đã có.</div>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button id="resetNo" style="flex:1;padding:12px 0;border-radius:14px;border:0;background:#eee;font-weight:800;font-size:17px;color:#444">Không</button>
+      <button id="resetYes" style="flex:1;padding:12px 0;border-radius:14px;border:0;background:#ff5a4d;font-weight:800;font-size:17px;color:#fff">Chơi lại</button>
+    </div>
+  </div>
 </div>
 <div id="mapwrap"><canvas id="map" width="92" height="92"></canvas></div>
 <div id="joy"><div id="knob"></div></div>

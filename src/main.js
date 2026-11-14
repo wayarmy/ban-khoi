@@ -518,6 +518,15 @@ $('replay').addEventListener('click', () => {
   else speak('find', T('find'));
 });
 
+// ================================================================ reset progress
+$('resetBtn').addEventListener('click', () => { $('resetConfirm').style.display = 'grid'; });
+$('resetNo').addEventListener('click', () => { $('resetConfirm').style.display = 'none'; });
+$('resetYes').addEventListener('click', () => {
+  localStorage.removeItem('khoi.s2');
+  localStorage.removeItem('khoi.hero');
+  location.reload();
+});
+
 // ================================================================ choose your friend
 let welcomed = false;
 $('play').addEventListener('click', async () => {
