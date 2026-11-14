@@ -62,5 +62,8 @@ await shot('nong-trai');
 // 8. the city: fountain plaza and tall buildings
 await ev(() => { __dbg.teleport(760, -10); __dbg.view.pitch = .55; __dbg.view.yaw = 0; __dbg.view.zoom = 1.6; }); await wait(5500);
 await shot('thanh-pho');
+// 9. (temporary) full map check
+await ev(() => document.getElementById('mapwrap').click()); await wait(800);
+await shot('TEMP-fullmap');
 
 await browser.close(); server.close();

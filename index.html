@@ -22,7 +22,7 @@
   #compass svg{transition:transform .08s linear}
   #mapwrap{position:fixed;left:12px;top:calc(max(10px,env(safe-area-inset-top)) + 76px);
     width:92px;height:92px;border-radius:14px;overflow:hidden;box-shadow:0 5px 0 #0003;background:#3d8f3a;
-    pointer-events:none;border:3px solid #fff}
+    pointer-events:auto;border:3px solid #fff;cursor:pointer}
   #map{width:100%;height:100%;display:block}
   /* walking stick (joystick) */
   #joy{position:fixed;left:max(18px,env(safe-area-inset-left));bottom:max(28px,env(safe-area-inset-bottom));
@@ -115,6 +115,9 @@
   </div>
 </div>
 <div id="mapwrap"><canvas id="map" width="92" height="92"></canvas></div>
+<div id="fullmap" style="position:fixed;inset:0;display:none;background:#0009;z-index:60;place-items:center">
+  <canvas id="fullmapCv" width="640" height="640" style="width:min(92vw,640px);height:min(92vw,640px);border-radius:18px;border:4px solid #fff;box-shadow:0 8px 0 #0003"></canvas>
+</div>
 <div id="joy"><div id="knob"></div></div>
 <button id="act" aria-label="Làm"><span id="actIcon">🧱</span></button>
 <button id="tap" aria-label="Chạy nhanh"><span>👆</span></button>

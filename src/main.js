@@ -5,7 +5,7 @@ import { Particles, numberSprite, labelSprite, emojiSprite, letterCard, tween, w
 import { initAudio, speak, sfx } from './audio.js';
 import { glyphCells, DIGITS, LETTERS } from './glyphs.js';
 import { WORDS, LETTER_SAY, DIGIT_SAY } from './vn.js';
-import { GLYPH_SITES, WORD_SITES, PRIZE_GLYPHS, TRACKS, FARM, blockedStatic, isWater, inLake, zoneAt, HALF } from './worldgen.js';
+import { GLYPH_SITES, WORD_SITES, PRIZE_GLYPHS, TRACKS, FARM, ZONES, blockedStatic, isWater, inLake, zoneAt, HALF } from './worldgen.js';
 import { Wildlife, Pets, EMOJI, SAY } from './animals.js';
 import { Race } from './races.js';
 
@@ -496,7 +496,7 @@ canvas.addEventListener('pointermove', ev => {
   const p = ptrs.get(ev.pointerId); if (!p || race) return;
   const dx = ev.clientX - p.x, dy = ev.clientY - p.y;
   p.x = ev.clientX; p.y = ev.clientY;
-  if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; view.zoom = THREE.MathUtils.clamp(zoom0 * pinch0 / Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)), .5, 1.7); return; }
+  if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; view.zoom = THREE.MathUtils.clamp(zoom0 * pinch0 / Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)), .5, 2.6); return; }
   moved += Math.abs(dx) + Math.abs(dy);
   if (moved > 14) dragging = true;
   if (dragging) {
@@ -507,7 +507,7 @@ canvas.addEventListener('pointermove', ev => {
 });
 const endPtr = ev => { if (ptrs.delete(ev.pointerId) && ptrs.size === 0) setTimeout(() => { dragging = false; }, 0); };
 canvas.addEventListener('pointerup', endPtr); canvas.addEventListener('pointercancel', endPtr);
-canvas.addEventListener('wheel', ev => { view.zoom = THREE.MathUtils.clamp(view.zoom * (1 + ev.deltaY * .001), .5, 1.7); }, { passive: true });
+canvas.addEventListener('wheel', ev => { view.zoom = THREE.MathUtils.clamp(view.zoom * (1 + ev.deltaY * .001), .5, 2.6); }, { passive: true });
 
 $('replay').addEventListener('click', () => {
   if (!cfg) return;
@@ -614,6 +614,42 @@ function drawMap() {
   mapCtx.fillStyle = '#fff'; mapCtx.beginPath(); mapCtx.arc(MAP / 2, MAP / 2, 5, 0, 7); mapCtx.fill();
   mapCtx.fillStyle = '#1e90ff'; mapCtx.beginPath(); mapCtx.arc(MAP / 2, MAP / 2, 3.4, 0, 7); mapCtx.fill();
 }
+
+// ---- full-screen map: a static top-down view of the whole island, not locked to heading ----
+const fullCv = $('fullmapCv'), fullCtx = fullCv.getContext('2d');
+const FULL = 640, FULL_SCALE = FULL / (HALF * 2);
+let fullmapOpen = false;
+function drawFullMap() {
+  const img = fullCtx.createImageData(FULL, FULL);
+  const d = img.data;
+  for (let j = 0; j < FULL; j += 2) for (let i = 0; i < FULL; i += 2) {
+    const wx = (i / FULL_SCALE) - HALF, wz = (j / FULL_SCALE) - HALF;
+    let c = MC.grass;
+    if (isWater(wx, wz) || inLake(wx, wz)) c = MC.water;
+    else { const z = zoneAt(wx, wz); if (z === 'city') c = MC.city; else if (z === 'park') c = MC.park; else if (z === 'farm') c = MC.farm; else if (z === 'meadow') c = MC.meadow; }
+    for (const [oi, oj] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+      const k = ((j + oj) * FULL + (i + oi)) * 4;
+      d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = 255;
+    }
+  }
+  fullCtx.putImageData(img, 0, 0);
+  const toPx = (x, z) => [(x + HALF) * FULL_SCALE, (z + HALF) * FULL_SCALE];
+  for (const q of quests) {
+    const [px, py] = toPx(q.centre.x, q.centre.z);
+    fullCtx.fillStyle = q.done ? '#1d6b2c' : unlocked(q) ? '#ffb400' : '#d04a6a';
+    fullCtx.beginPath(); fullCtx.arc(px, py, q.done ? 4 : 6, 0, 7); fullCtx.fill();
+  }
+  for (const tr of Object.values(TRACKS)) { const [px, py] = toPx(tr.x, tr.z0); fullCtx.fillStyle = '#fff'; fullCtx.beginPath(); fullCtx.arc(px, py, 7, 0, 7); fullCtx.fill(); }
+  { const [px, py] = toPx(FARM.kitchen.x, FARM.kitchen.z); fullCtx.fillStyle = '#ff7a00'; fullCtx.beginPath(); fullCtx.arc(px, py, 6, 0, 7); fullCtx.fill(); }
+  fullCtx.font = '700 15px system-ui, sans-serif'; fullCtx.fillStyle = '#fff'; fullCtx.textAlign = 'center';
+  for (const z of Object.values(ZONES)) { const [px, py] = toPx(z.x, z.z); fullCtx.fillText(z.name, px, py - 12); }
+  const h = heroPos(); const [hx, hy] = toPx(h.x, h.z);
+  fullCtx.fillStyle = '#fff'; fullCtx.beginPath(); fullCtx.arc(hx, hy, 9, 0, 7); fullCtx.fill();
+  fullCtx.fillStyle = '#1e90ff'; fullCtx.beginPath(); fullCtx.arc(hx, hy, 6, 0, 7); fullCtx.fill();
+}
+$('mapwrap').addEventListener('click', () => { fullmapOpen = true; $('fullmap').style.display = 'grid'; drawFullMap(); });
+$('fullmap').addEventListener('click', () => { fullmapOpen = false; $('fullmap').style.display = 'none'; });
+
 function gateNearest() {
   const h = heroPos(); let best = null, bd = 1e9;
   for (const tr of Object.values(TRACKS)) { const g = gateOf(tr), d = Math.hypot(g.x - h.x, g.z - h.z); if (d < bd) { bd = d; best = g; } }
@@ -714,7 +750,7 @@ function frame() {
 
     bobPile(t);
     hudT += dt;
-    if (hudT > .12) { hudT = 0; drawMap(); updateCompass(); refreshAct(); }
+    if (hudT > .12) { hudT = 0; drawMap(); updateCompass(); refreshAct(); if (fullmapOpen) drawFullMap(); }
     cropT += dt; if (cropT > .4) { cropT = 0; updateCrops(); }
     saveT += dt; if (saveT > 3) { saveT = 0; S.pos = [+hp.x.toFixed(1), +hp.z.toFixed(1)]; persist(); }
   }
