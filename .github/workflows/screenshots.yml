@@ -4,7 +4,7 @@ name: Screenshots
 on:
   workflow_dispatch:
   push:
-    branches: [big-world]
+    branches: [ios]
     paths: ['tools/screenshots.mjs', '.github/workflows/screenshots.yml']
 
 jobs:
