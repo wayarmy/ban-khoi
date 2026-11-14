@@ -21,7 +21,12 @@ jobs:
       - run: npx vite build
       - run: npm i --no-save --no-audit --no-fund playwright@1.49.1 && npx playwright install --with-deps chromium
       - run: node tools/screenshots.mjs store/screenshots/iphone-6.3
+      - run: node tools/screenshots.mjs store/screenshots/ipad-13 ipad
       - uses: actions/upload-artifact@v4
         with:
           name: iphone-6.3-screenshots
           path: store/screenshots/iphone-6.3/*.png
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ipad-13-screenshots
+          path: store/screenshots/ipad-13/*.png
