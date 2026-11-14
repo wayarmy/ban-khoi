@@ -1,11 +1,11 @@
-// Takes the App Store screenshots: iPhone 6.9" = 1320 x 2868 px (440 x 956 css px at 3x).
+// Takes the App Store screenshots: iPhone 6.3" = 1206 x 2622 px (402 x 874 css px at 3x).
 // Usage (CI): node tools/screenshots.mjs <outDir>   -- needs `npx vite build` first and playwright installed.
 import { chromium } from 'playwright';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const out = process.argv[2] || 'store/screenshots/iphone-6.9';
+const out = process.argv[2] || 'store/screenshots/iphone-6.3';
 fs.mkdirSync(out, { recursive: true });
 const root = path.resolve('dist');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css', '.png': 'image/png', '.glb': 'model/gltf-binary' };
@@ -17,7 +17,7 @@ await new Promise(r => server.listen(0, '127.0.0.1', r));
 const port = server.address().port;
 
 const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-const ctx = await browser.newContext({ viewport: { width: 440, height: 956 }, deviceScaleFactor: 3, hasTouch: true, isMobile: true });
+const ctx = await browser.newContext({ viewport: { width: 402, height: 874 }, deviceScaleFactor: 3, hasTouch: true, isMobile: true });
 const page = await ctx.newPage();
 page.on('pageerror', e => console.log('PAGE ERROR', e.message));
 await page.goto(`http://127.0.0.1:${port}/`);
